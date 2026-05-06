@@ -80,10 +80,55 @@ select department_id, sum(salary) as total_salary from Employee group by departm
 select department_id, max(salary) as highest_salary from Employee group by department_id having max(salary) > 75000;
 
 
+-- Order By Queries
+
+-- Q31) all employees ordered by salary in ascending order
+select * from Employee order by salary asc;
+-- Q32) all employees ordered by age in descending order
+select * from Employee order by age desc;
+-- Q33) all employees ordered by hire date in ascending order
+select * from Employee order by hire_date asc;
+-- Q34) employees ordered by department and then by salary
+select * from Employee order by department_id asc, salary asc;
+-- Q35) departments ordered by total salary of their employees
+select department_id, sum(salary) as total_salary from Employee group by department_id order by total_salary desc;
 
 
+-- Join Queries
+-- Q36) employee names along with their department names
+select e.name as employee_name, d.name as department_name from Employee e join Department d on e.department_id = d.department_id;
+-- Q37) project names along with the department names they belong to
+select p.name as project_name, d.name as department_name from Project p join Department d on p.department_id = d.department_id;
+-- Q38) employee names and their corresponding project names
+select e.name as employee_name, p.name as project_name from Employee e join Project p on e.department_id = p.department_id;
+-- Q39) all employees and their departments, including those without a department
+select e.name as employee_name, d.name as department_name from Employee e left join Department d on e.department_id = d.department_id;
+-- Q40) all departments and their employees, including departments without employees
+select d.name as department_name, e.name as employee_name from Department d left join Employee e on d.department_id = e.department_id;
+-- Q41) employees who are not assigned to any project
+select e.name from Employee e left join Project p on e.department_id = p.department_id where p.project_id is null;
+-- Q42) employees and the number of projects their department is working on
+select e.name, count(p.project_id) as project_count from Employee e left join Project p on e.department_id = p.department_id group by e.emp_id, e.name;
+-- Q43) departments that have no employees
+select d.name from Department d left join Employee e on d.department_id = e.department_id where e.emp_id is null;
+-- Q44) employee names who share the same department with 'John Doe'
+select name from Employee where department_id = (select department_id from Employee where name = 'John Doe') and name <> 'John Doe';
+-- Q45) department name with the highest average salary
+select d.name, avg(e.salary) as average_salary from Employee e join Department d on e.department_id = d.department_id group by d.department_id, d.name order by average_salary desc limit 1;
 
 
+-- Nested and Correlated Queries
+
+-- Q46) employee with the highest salary
+select * from Employee where salary = (select max(salary) from Employee);
+-- Q47) employees whose salary is above the average salary
+select * from Employee where salary > (select avg(salary) from Employee);
+-- Q48) second highest salary from employee table
+select max(salary) as second_highest_salary from Employee where salary < (select max(salary) from Employee);
+-- Q49) department with the most employees
+select department_id, count(*) as employee_count from Employee group by department_id order by employee_count desc limit 1;
+-- Q50) employees who earn more than the average salary of their department
+select * from Employee e where salary > (select avg(salary) from Employee where department_id = e.department_id);
 
 
 
