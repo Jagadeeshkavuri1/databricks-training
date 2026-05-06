@@ -30,3 +30,29 @@ select * from Employee where name like '_o%';
 
 
 -- Date Queries
+-- Q11) employees hired in the year 2020
+select * from Employee where year(hire_date) = 2020;
+-- Q12) employees hired in January of any year
+select * from Employee where month(hire_date) = 1;
+-- Q13) employees hired before 2019
+select * from Employee where hire_date < '2019-01-01';
+-- Q14) employees hired on or after March 1, 2021
+select * from Employee where hire_date >= '2021-03-01';
+-- Q15) employees hired in the last 2 years
+select * from Employee where hire_date >= date_sub(curdate(), interval 2 year);
+
+
+-- Aggregate Queries
+
+-- Q16) total salary of all employees
+select sum(salary) as total_salary from Employee;
+-- Q17) average salary of employees
+select avg(salary) as average_salary from Employee;
+-- Q18) minimum salary in employee table
+select min(salary) as minimum_salary from Employee;
+-- Q19) number of employees in each department
+select department_id, count(*) as employee_count from Employee group by department_id;
+-- Q20) average salary of employees in each department
+select department_id, avg(salary) as average_salary from Employee group by department_id;
+
+
