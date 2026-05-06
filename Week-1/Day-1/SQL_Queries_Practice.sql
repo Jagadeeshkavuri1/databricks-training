@@ -14,3 +14,19 @@ where department_id = (
     from Department 
     where name = 'IT'
 );
+
+
+-- String Matching
+-- Q6) employees whose names start with 'J' 
+select * from Employee where name like 'J%'; 
+-- Q7) employees whose names end with 'e'
+select * from Employee where name like '%e'; 
+-- Q8) employees whose names contain 'a'
+select * from Employee where name like '%a%';
+-- Q9) employees whose names are exactly 9 characters long 
+select * from Employee where name like '_________';
+--Q10) employees whose names have 'o' as the second character
+select * from Employee where name like '_o%';
+
+
+-- Date Queries
