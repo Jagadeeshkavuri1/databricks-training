@@ -9,11 +9,7 @@ select * from Employee where age > 30;
 select name from Department; 
 -- Q5) Select employees who work in the IT department.
 select * from Employee
-where department_id = (
-    select department_id 
-    from Department 
-    where name = 'IT'
-);
+where department_id = (select department_id from Department where name = 'IT');
 
 
 -- String Matching
@@ -54,5 +50,55 @@ select min(salary) as minimum_salary from Employee;
 select department_id, count(*) as employee_count from Employee group by department_id;
 -- Q20) average salary of employees in each department
 select department_id, avg(salary) as average_salary from Employee group by department_id;
+
+
+-- Group By Queries
+
+-- Q21) total salary for each department
+select department_id, sum(salary) as total_salary from Employee group by department_id;
+-- Q22) average age of employees in each department
+select department_id, avg(age) as average_age from Employee group by department_id;
+-- Q23) number of employees hired in each year
+select year(hire_date) as hire_year, count(*) as employee_count from Employee group by year(hire_date);
+-- Q24) highest salary in each department
+select department_id, max(salary) as highest_salary from Employee group by department_id;
+-- Q25) department with the highest average salary
+select department_id, avg(salary) as average_salary from Employee group by department_id order by average_salary desc limit 1;
+
+
+-- Having Queries
+
+-- Q26) departments with more than 2 employees
+select department_id, count(*) as employee_count from Employee group by department_id having count(*) > 2;
+-- Q27) departments with an average salary greater than 55000
+select department_id, avg(salary) as average_salary from Employee group by department_id having avg(salary) > 55000;
+-- Q28) years with more than 1 employee hired
+select year(hire_date) as hire_year, count(*) as employee_count from Employee group by year(hire_date) having count(*) > 1;
+-- Q29) departments with a total salary expense less than 100000
+select department_id, sum(salary) as total_salary from Employee group by department_id having sum(salary) < 100000;
+-- Q30) departments with the maximum salary above 75000
+select department_id, max(salary) as highest_salary from Employee group by department_id having max(salary) > 75000;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
