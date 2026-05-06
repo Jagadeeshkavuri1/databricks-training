@@ -129,7 +129,39 @@ select max(salary) as second_highest_salary from Employee where salary < (select
 select department_id, count(*) as employee_count from Employee group by department_id order by employee_count desc limit 1;
 -- Q50) employees who earn more than the average salary of their department
 select * from Employee e where salary > (select avg(salary) from Employee where department_id = e.department_id);
+-- Q51) nth highest salary (example: 3rd highest)
+select distinct salary from Employee order by salary desc limit 1 offset 2;
+-- Q52) employees older than all employees in HR department
+select * from Employee where age > all (select age from Employee where department_id = (select department_id from Department where name = 'HR'));
+-- Q53) departments where average salary is greater than 55000
+select department_id, avg(salary) as average_salary from Employee group by department_id having avg(salary) > 55000;
+-- Q54) employees who work in a department with at least 2 projects
+select * from Employee where department_id in (select department_id from Project group by department_id having count(*) >= 2);
+-- Q55) employees hired on the same date as 'Jane Smith'
+select * from Employee where hire_date = (select hire_date from Employee where name = 'Jane Smith');
 
+
+-- Combined Moderate Difficulty Queries
+-- Q56) total salary of employees hired in the year 2020
+select sum(salary) as total_salary from Employee where year(hire_date) = 2020;
+-- Q57) average salary of employees in each department ordered by average salary descending
+select department_id, avg(salary) as average_salary from Employee group by department_id order by average_salary desc;
+-- Q58) departments with more than 1 employee and average salary greater than 55000
+select department_id, count(*) as employee_count, avg(salary) as average_salary from Employee group by department_id having count(*) > 1 and avg(salary) > 55000;
+-- Q59) employees hired in the last 2 years ordered by hire date
+select * from Employee where hire_date >= date_sub(curdate(), interval 2 year) order by hire_date asc;
+-- Q60) total number of employees and average salary for departments with more than 2 employees
+select department_id, count(*) as employee_count, avg(salary) as average_salary from Employee group by department_id having count(*) > 2;
+-- Q61) name and salary of employees whose salary is above the average salary of their department
+select name, salary from Employee e where salary > (select avg(salary) from Employee where department_id = e.department_id);
+-- Q62) names of employees hired on the same date as the oldest employee in the company
+select name from Employee where hire_date = (select min(hire_date) from Employee);
+-- Q63) department names along with total number of projects ordered by number of projects
+select d.name, count(p.project_id) as project_count from Department d left join Project p on d.department_id = p.department_id group by d.department_id, d.name order by project_count desc;
+-- Q64) employee name with the highest salary in each department
+select name, department_id, salary from Employee e where salary = (select max(salary) from Employee where department_id = e.department_id);
+-- Q65) names and salaries of employees older than the average age of employees in their department
+select name, salary from Employee e where age > (select avg(age) from Employee where department_id = e.department_id);
 
 
 
