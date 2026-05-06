@@ -1,4 +1,3 @@
-#WWeek-1
 # Day 1
 
 => Git Repo Set-Up <br>
